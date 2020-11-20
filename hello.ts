@@ -97,4 +97,64 @@ let tom: Person = {
   name: "Tom",
   age: 20
 }
-console.log("object")
+// 可选属性：可选属性的含义是该属性可以不存在。但仍然不允许添加未定义的属性：
+interface Child {
+  name: string
+  age?: number
+}
+
+let Tom: Child = {
+  name: "tom"
+}
+// 任意属性:一个接口中只能定义一个任意属性。如果接口中有多个类型的属性，则可以在任意属性中使用联合类型：
+// 需要注意的是，一旦定义了任意属性，那么确定属性和可选属性的类型都必须是它的类型的子集
+interface Teacher {
+  name: string
+  age?: number
+  [propName: string]: any
+  // [propName: string]: string | number  //或者用联合类型来写
+}
+
+let Jerry: Teacher = {
+  name: 'jerry',
+  age: 20,
+  sex: "男",
+  tow: "wqwe"
+}
+// 只读属性：只读的约束存在于第一次给对象赋值的时候，而不是第一次给只读属性赋值的时候
+interface Students {
+  name: string
+  age?: number
+  readonly id: number
+}
+let jerry: Students = {
+  name: "Jerry",
+  age: 20,
+  id: 101011
+}
+// jerry.id = 2020  //报错，只读属性不能修改
+
+// 数组
+// 「类型 + 方括号」表示法，数组中不允许出现其他类型
+let arr1: number[] = [1, 2, 3, 4]
+// arr1.push("9")  //报错，方法也会因为类型受限制
+// 数组泛型
+let arr2: Array<number> = [1, 2, 3, 4]
+// arr2.push("9")  //报错
+// 用接口表示数组
+interface NumberArray {
+  [index: number]: number
+}
+let arr3: NumberArray = [1, 2, 3, 4]
+// arr3.push("2")  //报错
+// 类数组：类数组（Array-like Object）不是数组类型，比如 arguments
+function sum() {
+  let args: {
+    [index: number]: number
+    length: number
+    callee: Function
+  } = arguments
+  // let args: number[] = arguments;  //报错
+}
+// any在数组中的应用
+let arr4: any[] = [1, "2", {name: "qwe"}]

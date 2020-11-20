@@ -74,5 +74,35 @@ myFavoriteString = 2;
 // 赋值的时候，变量的形状必须和接口的形状保持一致。多属性和少属性都会报错
 var tom = {
     name: "Tom",
-    age: "2"
+    age: 20
 };
+var Tom = {
+    name: "tom"
+};
+var Jerry = {
+    name: 'jerry',
+    age: 20,
+    sex: "男",
+    tow: "wqwe"
+};
+var jerry = {
+    name: "Jerry",
+    age: 20,
+    id: 101011
+};
+// jerry.id = 2020  //报错，只读属性不能修改
+// 数组
+// 「类型 + 方括号」表示法，数组中不允许出现其他类型
+var arr1 = [1, 2, 3, 4];
+// arr1.push("9")  //报错，方法也会因为类型受限制
+// 数组泛型
+var arr2 = [1, 2, 3, 4];
+var arr3 = [1, 2, 3, 4];
+// arr3.push("2")  //报错
+// 类数组：类数组（Array-like Object）不是数组类型，比如 arguments
+function sum() {
+    var args = arguments;
+    // let args: number[] = arguments;  //报错
+}
+// any在数组中的应用
+var arr4 = [1, "2", { name: "qwe" }];
