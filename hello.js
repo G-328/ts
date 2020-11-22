@@ -106,3 +106,15 @@ function sum() {
 }
 // any在数组中的应用
 var arr4 = [1, "2", { name: "qwe" }];
+// 函数
+// 声明式
+function fun1(x, y) {
+    return x + y;
+}
+// fun1(1)  // 报错
+// fun1(1, 2, 3)  //报错
+// 表达式: 注意不要混淆了 TypeScript 中的 => 和 ES6 中的 =>,在 TypeScript 的类型定义中，=> 用来表示函数的定义，左边是输入类型，需要用括号括起来，右边是输出类型。
+var fun2 = function (x, y) {
+    return x + y;
+};
+// 用接口定义函数的形状

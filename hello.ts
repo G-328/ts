@@ -54,7 +54,6 @@ num1 = u
 let anyThing: any = "hello"
 console.log(anyThing.name)
 // console.log(anyThing.setName("Tom"))
-
 // 变量如果在声明的时候，未指定其类型，那么它会被识别为任意值类型
 let someThing;
 someThing = "hello"
@@ -114,7 +113,6 @@ interface Teacher {
   [propName: string]: any
   // [propName: string]: string | number  //或者用联合类型来写
 }
-
 let Jerry: Teacher = {
   name: 'jerry',
   age: 20,
@@ -158,3 +156,16 @@ function sum() {
 }
 // any在数组中的应用
 let arr4: any[] = [1, "2", {name: "qwe"}]
+
+// 函数
+// 声明式
+function fun1(x: number, y: number): number {
+  return x + y
+}
+// fun1(1)  // 报错
+// fun1(1, 2, 3)  //报错
+// 表达式: 注意不要混淆了 TypeScript 中的 => 和 ES6 中的 =>,在 TypeScript 的类型定义中，=> 用来表示函数的定义，左边是输入类型，需要用括号括起来，右边是输出类型。
+let fun2: (x: number, y: number) => number = function (x: number, y: number) {
+  return x + y
+}
+// 用接口定义函数的形状
