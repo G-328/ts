@@ -169,3 +169,129 @@ let fun2: (x: number, y: number) => number = function (x: number, y: number) {
   return x + y
 }
 // 用接口定义函数的形状
+interface funObj {
+  (source: string, subString: string): boolean
+}
+let fun3: funObj
+fun3 = function (source: string, subString: string) {
+  return source.search(subString) !== -1
+}
+// 可选参数
+function fun4(firstName: string, lastName?: string) {
+  if (lastName) {
+    return lastName
+  }else {
+    return firstName
+  } 
+}
+// 报错：需要注意的是，可选参数必须接在必需参数后面。换句话说，可选参数后面不允许再出现必需参数了：
+// function fun4(firstName?: string, lastName: string) {
+//   if (lastName) {
+//     return lastName
+//   }else {
+//     return firstName
+//   }
+// }
+let funStr1 = fun4("ming", "hong")
+let funStr2 = fun4("ming")
+// 参数默认值：TypeScript 会将添加了默认值的参数识别为可选参数。此时就不受「可选参数必须接在必需参数后面」的限制了：
+// function fun5(firstName: string, lastName: string = "Cat") {
+//   return firstName + " " + lastName
+// }
+function fun5(firstName: string = "Cat", lastName: string) {
+  return firstName + " " + lastName
+}
+let funStr3 = fun5("Tom", "Jerry")
+let funStr4 = fun5(undefined, "Tom")
+console.log(funStr3)
+console.log(funStr4)
+// 剩余参数：ES6 中，可以使用 ...rest 的方式获取函数中的剩余参数（rest 参数）
+function fun6(array: any[], ...items: any[]) {
+  items.forEach(function (item) {
+    array.push(item)
+  })
+}
+fun6([], 1, 2, 3)
+// 重载：重载允许一个函数接受不同数量或类型的参数时，做出不同的处理
+function fun7(x: number): number;
+function fun7(x: string): string;
+function fun7(x: number | string): number | string {
+  if (typeof x === "number") {
+    return Number(x.toString().split("").reverse().join(""))
+  }else if (typeof x === "string") {
+    return x.split("").reverse().join("")
+  }
+}
+console.log(fun7("qwe"))
+console.log(fun7(123))
+
+// 类型断言
+// 类型断言的用途
+//  将一个联合类型断言为其中一个类型
+interface duan1 {
+  name: string
+  fun(): void
+}
+interface duan2 {
+  name: string
+  swin(): void
+}
+function duanFun1(animal: duan1 | duan2) {
+  if (typeof (animal as duan2).swin === "function") {
+    return true
+  }
+  return false
+}
+//  将一个父类断言为更具体的子类
+class ApiError extends Error{
+  code: number = 0
+}
+class HttpError extends Error {
+  statusCode: number = 200
+}
+function isApiError(error: Error) {
+  if (typeof (error as ApiError).code === "number") {
+    return true
+  }
+  return false
+}
+//  将任何一个类型断言为any：将一个变量断言为 any 可以说是解决 TypeScript 中类型问题的最后一个手段。
+// (window as any).foo = 1
+//  将any断言成任何一个具体类型
+// function getCacheData(key: string): any {
+//   return (window as any).cache[key];
+// }
+// interface Car {
+//   name: string;
+//   run(): void;
+// }
+// const bc = getCacheData('bc') as Car;
+// bc.run()
+// 类型断言的限制
+//  并不是任何一个类型都可以被断言为任何另一个类型。具体来说，若 A 兼容 B，那么 A 能够被断言为 B，B 也能被断言为 A。
+// 双重断言：除非迫不得已，千万别用双重断言
+interface duan3 {
+  run(): void
+}
+interface duan4 {
+  swin(): void
+}
+function duanFun2(cat: duan3) {
+  return (cat as any as duan4)
+}
+// 类型断言vs类型转换
+//  类型断言只会影响 TypeScript 编译时的类型，类型断言语句在编译结果中会被删除。若要进行类型转换，需要直接调用类型转换的方法
+function toBoolean(something: any): boolean {
+  return Boolean(something)
+}
+toBoolean(1)
+// 类型断言vs类型声明：类型声明是比类型断言更加严格的
+// function getCacheData(key: string): any {
+//   return (window as any).cache[key];
+// }
+// interface Cat {
+//   name: string;
+//   run(): void;
+// }
+// const tom: Cat = getCacheData('tom');  //tome: Cat,类型声明
+// tom.run();

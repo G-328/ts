@@ -1,3 +1,16 @@
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 function sayHello(person) {
     return 'Hello, ' + person;
 }
@@ -117,4 +130,109 @@ function fun1(x, y) {
 var fun2 = function (x, y) {
     return x + y;
 };
-// 用接口定义函数的形状
+var fun3;
+fun3 = function (source, subString) {
+    return source.search(subString) !== -1;
+};
+// 可选参数
+function fun4(firstName, lastName) {
+    if (lastName) {
+        return lastName;
+    }
+    else {
+        return firstName;
+    }
+}
+// 报错：需要注意的是，可选参数必须接在必需参数后面。换句话说，可选参数后面不允许再出现必需参数了：
+// function fun4(firstName?: string, lastName: string) {
+//   if (lastName) {
+//     return lastName
+//   }else {
+//     return firstName
+//   }
+// }
+var funStr1 = fun4("ming", "hong");
+var funStr2 = fun4("ming");
+// 参数默认值：TypeScript 会将添加了默认值的参数识别为可选参数。此时就不受「可选参数必须接在必需参数后面」的限制了：
+// function fun5(firstName: string, lastName: string = "Cat") {
+//   return firstName + " " + lastName
+// }
+function fun5(firstName, lastName) {
+    if (firstName === void 0) { firstName = "Cat"; }
+    return firstName + " " + lastName;
+}
+var funStr3 = fun5("Tom", "Jerry");
+var funStr4 = fun5(undefined, "Tom");
+console.log(funStr3);
+console.log(funStr4);
+// 剩余参数：ES6 中，可以使用 ...rest 的方式获取函数中的剩余参数（rest 参数）
+function fun6(array) {
+    var items = [];
+    for (var _i = 1; _i < arguments.length; _i++) {
+        items[_i - 1] = arguments[_i];
+    }
+    items.forEach(function (item) {
+        array.push(item);
+    });
+}
+fun6([], 1, 2, 3);
+function fun7(x) {
+    if (typeof x === "number") {
+        return Number(x.toString().split("").reverse().join(""));
+    }
+    else if (typeof x === "string") {
+        return x.split("").reverse().join("");
+    }
+}
+console.log(fun7("qwe"));
+console.log(fun7(123));
+function duanFun1(animal) {
+    if (typeof animal.swin === "function") {
+        return true;
+    }
+    return false;
+}
+//  将一个父类断言为更具体的子类
+var ApiError = /** @class */ (function (_super) {
+    __extends(ApiError, _super);
+    function ApiError() {
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this.code = 0;
+        return _this;
+    }
+    return ApiError;
+}(Error));
+var HttpError = /** @class */ (function (_super) {
+    __extends(HttpError, _super);
+    function HttpError() {
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this.statusCode = 200;
+        return _this;
+    }
+    return HttpError;
+}(Error));
+function isApiError(error) {
+    if (typeof error.code === "number") {
+        return true;
+    }
+    return false;
+}
+function duanFun2(cat) {
+    return cat;
+}
+// 类型断言vs类型转换
+//  类型断言只会影响 TypeScript 编译时的类型，类型断言语句在编译结果中会被删除。若要进行类型转换，需要直接调用类型转换的方法
+function toBoolean(something) {
+    return Boolean(something);
+}
+toBoolean(1);
+// 类型断言vs类型声明：类型声明是比类型断言更加严格的
+// function getCacheData(key: string): any {
+//   return (window as any).cache[key];
+// }
+// interface Cat {
+//   name: string;
+//   run(): void;
+// }
+// const tom: Cat = getCacheData('tom');  //tome: Cat,类型声明
+// tom.run();
