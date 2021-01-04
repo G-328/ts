@@ -236,3 +236,5 @@ toBoolean(1);
 // }
 // const tom: Cat = getCacheData('tom');  //tome: Cat,类型声明
 // tom.run();
+console.log("QWE",typeof process)
+console.log( Object.prototype.toString.call(process))
