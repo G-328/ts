@@ -1,3 +1,3 @@
 # ts 1
 
-main
+day
